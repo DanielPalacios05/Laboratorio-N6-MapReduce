@@ -1,44 +1,63 @@
 # Curso ST0263 Tópicos Especiales en Telemática
-# Laboratorio: Map/Reduce en Python con MRJOB.
+# Informe: Map/Reduce en Python con MRJOB.
 
-* Despliegue un cluster EMR en su cuenta de AWS Academy, teniendo en cuenta la guia para esto. En este enlace, encuentra la documentación de AWS EMR (https://docs.aws.amazon.com/emr/index.html)
-    * Reto: Consulte como realizar la implementación del cluster via AWS CLI. En el informe debe enviar la evidencia de los diferentes comandos que tuvo que ejecutar para poder instanciar el cluster EMR. Adjunte el paso a paso con los diferentes pantallazos de evidencia.
+## Despligue EMR con AWS CLI
 
-* Ejecutar la versión serial/secuencial de la aplicación de wordcount-local.py. Esto lo puede ejecutar en el main node del clúster EMR. Para esto clone este repositorio desde el main node del cluster y asuma todos los datos locales. Una vez clonado el repositorio, ejecute los siguientes comandos:
+Para desplegar el cluster, al ya tener una instancia de s3 y llave privada creada lo instanciamos de la siguiente forma
+
 ```sh
-     user@master$ cd wordcount
-     user@master$ python wordcount-local.py /datasets/gutenberg-small/*.txt > salida-serial.txt
-     user@master$ more salida-serial.txt
+aws emr create-cluster \
+--release-label "emr-7.1.0" \
+--name "lab-emr-drpalaciod" \
+--applications Name=Spark Name=Hadoop Name=Pig Name=Hive \
+--ec2-attributes KeyName=lab-06 \
+--instance-type m5.xlarge \
+--instance-count 3 \
+--use-default-roles \
+--no-auto-terminate \
+--log-uri  "s3://lab-emr-bucket"
 ```
-* Ahora, vamos a proceder a ejecutar el programa escrito en python de word count que emplea el paradigma de programación Map/Reduce. Hay varias librerias de python para acceder a servicios MapReduce en Hadoop. Para efectos de este laboratorio vamos a utilzar MRJOB (https://mrjob.readthedocs.io/en/stable/). Esta es la libreria que nos permite escribir programas en python que empleen el paradigma de Map/Reduce. De igual forma, esta libreria, permite la ejecución del programa de manera local o sobre un clúster Hadoop. En este laboratorio, vamos a ejecutarlo de manera local y en el clúster EMR.
+Donde:
+```--release-label``` : Versión el cluster
 
-* Se puede emplear una version de python 2.x o 3.x, del sistema (como root) o con un manejador de versiones de node (pyenv o virtualenv).
+```--name``` : Nombre de el cluster
 
-* Como parte del sistema, se instalará mrjob así:
+```--applications``` : Aplicaciones a instalar en el cluster
+
+```--ec2-attributes``` : Atributos de las instancias, determinamos el nombre de la llave que ultilizaremos para acceder a las instancias
+
+```--instance-type``` : Tipo de instancia para las maquinas de el cluster.
+
+```--instance-count``` : Numero de instancias de el cluster, una de ellas esta reservada para el main node, el resto serán de tipo cluster node
+
+```--use-default-roles``` : Las instancias usaran sus roles de permisos default
+
+```--no-auto-terminate``` : Normalmente EMR apaga los clusteres cuando no son ultizados por determinado tiempo, esta opción apagará los clusters solo cuando lo hagamos manualmente.
+
+
+```--log-uri``` : El URI de el s3 para almacenar los logs
+
+Luego de crear el cluster e instalar git con yum y mrjob con pip, clonamos este repositorio.
+
+Con el comando hdfs dfs -copyFromLocal copiamos el dataset a el HDFS
+
+Para correr MRJob en un cluster de hadoop, para efectos de este laboratorio, podremos usar esta estructura
 
 ```sh
-	user@master$ sudo yum install python3-pip
-	user@master$ sudo pip3 install mrjob
-````
-
-* Probar mrjob python local:
-
-```sh
-	user@master$ cd wordcount
-	user@master$ python wordcount-mr.py ./datasets/gutenberg-small/*.txt
-````
-
-* Ejecutar mrjob python en Hadoop con datos en hdfs o s3:
-
-    * Reto: Se debe consultar en la documentación de mrjob para ejecutar en clusters AWS EMR. Se ejecutará algo similar a esto:
-
-```sh
-	user@master$ python wordcount-mr.py hdfs:///datasets/gutenberg-small/*.txt -r hadoop --output-dir hdfs:///user/<login>/result3 --hadoop-streaming-jar $HADOOP_STREAMING_HOME/hadoop-streaming.jar
+python <mrjob>.py hdfs://<path absoluto dataset>  -r hadoop --output-dir hdfs://<path absoluto donde se guardará el output>
 ```
 
-Tenga en cuenta que el directorio 'result*' no puede existir. 
+Por ejemplo al ejecutar el mrjob de word count de ejemplo usamos este comando:
+```sh
+python wordcount-mr.py hdfs:///user/hadoop/datasets/gutenberg-sma
+ll/*  -r hadoop --output-dir hdfs:///user/hadoop/resultsexample.txt
+```
 
-* Nota: "-D mapred.reduce.tasks=10" para especificar el nro de reducers en MRJOB
+La salida es un archivo en el HDFS guardado en la ruta definida en ```--output-dir``` que podemos extraer con el comando ```hdfs dfs -copyToLocal```
+
+Este archivo realmente sera un directorio que esta distribuido en partes, evidenciando el manejo de archivos de el hdfs
+
+
 
 Debe entregar en el informe la evidencia de la ejecución de la aplicación así como el resultado. 
 
