@@ -135,6 +135,6 @@ El contenido de cada parte corresponde a el ouput de el programa, es decir, el c
            
    [Script de solucion](movie_analysis.py)
 
-
+Link de el video sustentacion: [https://youtu.be/mBAK5Tjp29M](https://youtu.be/mBAK5Tjp29M)
 
 
