@@ -37,6 +37,11 @@ Donde:
 
 ```--log-uri``` : El URI de el s3 para almacenar los logs
 
+Al subir el cluster y correr este comando podremos ver que estará esperando tareas: 
+
+![image](https://github.com/DanielPalacios05/Laboratorio-N6-MapReduce/assets/82727314/3b1826bb-8611-45ca-b710-be4a46072938)
+
+
 Luego de crear el cluster e instalar git con yum y mrjob con pip, clonamos este repositorio.
 
 Con el comando hdfs dfs -copyFromLocal copiamos el dataset a el HDFS
