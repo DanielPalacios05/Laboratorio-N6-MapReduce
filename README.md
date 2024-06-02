@@ -57,13 +57,14 @@ La salida es un archivo en el HDFS guardado en la ruta definida en ```--output-d
 
 Este archivo realmente sera un directorio que esta distribuido en partes, evidenciando el manejo de archivos de el hdfs
 
+![image](https://github.com/DanielPalacios05/Laboratorio-N6-MapReduce/assets/82727314/39bdffe0-b48c-4374-a6e4-7c18c5fd8276)
+
+El contenido de cada parte corresponde a el ouput de el programa, es decir, el conteo de palabras
+
+![image](https://github.com/DanielPalacios05/Laboratorio-N6-MapReduce/assets/82727314/b8d0a17d-c6c2-4732-b81e-eba7637d1ca0)
 
 
-Debe entregar en el informe la evidencia de la ejecución de la aplicación así como el resultado. 
-
-# Reto de Programación en Map/Reduce
-
-A continuación se listan diferentes ejercicios básicos de MapReduce con MRJOB en python. Los puede verificar en su máquina local, sin embargo, debe envíar la evidencia de que se ejecutan en un cluster EMR.
+# Ejemplos de uso en Map/Reduce
 
 1. Se tiene un conjunto de datos, que representan el salario anual de los empleados formales en Colombia por sector económico, según la DIAN. [datasets de ejemplo](../datasets/otros)
 
@@ -84,6 +85,8 @@ A continuación se listan diferentes ejercicios básicos de MapReduce con MRJOB 
         1. El salario promedio por Sector Económico (SE)
         2. El salario promedio por Empleado
         3. Número de SE por Empleado que ha tenido a lo largo de la estadística
+     
+   [Script de solucion](employee_jobs.py)
 
 2. Se tiene un conjunto de acciones de la bolsa, en la cual se reporta a diario el valor promedio por acción, la estructura de los datos es (archivo: dataempresas.csv):
 
@@ -100,6 +103,8 @@ A continuación se listan diferentes ejercicios básicos de MapReduce con MRJOB 
         1. Por acción, dia-menor-valor, día-mayor-valor
         2. Listado de acciones que siempre han subido o se mantienen estables.
         3. DIA NEGRO: Saque el día en el que la mayor cantidad de acciones tienen el menor valor de acción (DESPLOME), suponga una inflación independiente del tiempo.
+     
+   [Script de solucion](stock_analysis.py)
 
 3. Sistema de evaluación de películas (archivo: datapeliculas.csv): Se tiene un conjunto de datos en el cual se evalúan las películas con un rating, con la siguiente estructura:
 
@@ -122,9 +127,8 @@ A continuación se listan diferentes ejercicios básicos de MapReduce con MRJOB 
         5. Día en que peor evaluación en promedio han dado los usuarios
         6. Día en que mejor evaluación han dado los usuarios
         7. La mejor y peor película evaluada por genero
-
-* Fecha de entrega del informe: Viernes 31 de Mayo a las 6:00 pm por el buzón de interactiva virtual. La sustentación de los códigos y las actividades realizadas en este laboratorio/reto se programarán posterior a la entrega. Este trabajo es de carácter individual.
-* Debe realizar un video de entrega explicando detalladamente TODOS los aspectos que le permitieron realizar el laboratorio.código 
+           
+   [Script de solucion](movie_analysis.py)
 
 
 
