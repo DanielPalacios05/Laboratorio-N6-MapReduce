@@ -1,0 +1,3 @@
+"Value range of stocks"	[["EPM", [22.0, "2015-01-01"], [20.0, "2015-01-02"]], ["exito", [80.0, "2015-01-01"], [20.0, "2015-01-02"]]]
+"Stocks growing or stable"	[]
+"Black Day"	"2015-01-02"
